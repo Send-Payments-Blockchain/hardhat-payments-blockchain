@@ -1,0 +1,42 @@
+{
+  "name": "hardhat-payments-blockchain",
+  "version": "1.0.0",
+  "description": "The smart contracts to interact with PriceFeeds to get real time data of Forex Currencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy:hardhat": "npx hardhat deploy --network hardhat --tags all",
+    "deploy:mumbai": "npx hardhat run --network mumbai --tags all",
+    "deploy:polygon": "npx hardhat run --network polygon --tags all",
+    "addPriceFeed:localhost": "npx hardhat run scripts/addPriceFeed.js --network localhost",
+    "removePriceFeed:localhost": "npx hardhat run scripts/removePriceFeed.js --network localhost"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Send-Payments-Blockchain/hardhat-payments-blockchain.git"
+  },
+  "keywords": [
+    "Payments",
+    "with",
+    "Fiat",
+    "Currencies"
+  ],
+  "author": "Jesus Badillo Jr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Send-Payments-Blockchain/hardhat-payments-blockchain/issues"
+  },
+  "homepage": "https://github.com/Send-Payments-Blockchain/hardhat-payments-blockchain#readme",
+  "devDependencies": {
+    "@chainlink/contracts": "^0.5.1",
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.3.0-beta.13",
+    "@openzeppelin/contracts": "^4.8.0",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.12.3",
+    "hardhat-deploy": "^0.11.21",
+    "prettier": "^2.8.0"
+  }
+}
