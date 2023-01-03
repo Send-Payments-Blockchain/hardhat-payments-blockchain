@@ -6,16 +6,16 @@ pragma solidity ^0.8.7;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-error PriceConverter__InvalidDecimals();
+error PriceConversions__InvalidDecimals();
 
-library PriceConverter {
+library PriceConversions {
     function getDerivedPrice(
         address _baseAddress,
         address _quoteAddress,
         uint8 _decimals
     ) public view returns (int256) {
         if (_decimals > uint8(0) && _decimals <= uint8(18)) {
-            revert PriceConverter__InvalidDecimals();
+            revert PriceConversions__InvalidDecimals();
         }
 
         int256 decimals = int256(10**uint256(_decimals));
@@ -47,12 +47,14 @@ library PriceConverter {
     function scalePrice(
         int256 _price,
         uint8 _priceDecimals,
-        uint8 _decimals
+        uint8 _quoteDecimals
     ) internal pure returns (int256) {
-        if (_priceDecimals < _decimals) {
-            return _price * int256(10**uint256(_decimals - _priceDecimals));
-        } else if (_priceDecimals > _decimals) {
-            return _price / int256(10**uint256(_priceDecimals - _decimals));
+        if (_priceDecimals < _quoteDecimals) {
+            return
+                _price * int256(10**uint256(_quoteDecimals - _priceDecimals));
+        } else if (_priceDecimals > _quoteDecimals) {
+            return
+                _price / int256(10**uint256(_priceDecimals - _quoteDecimals));
         }
         return _price;
     }

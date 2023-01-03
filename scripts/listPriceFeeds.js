@@ -10,26 +10,14 @@ const main = async () => {
     console.log("Getting contract");
     const priceFeeds = await ethers.getContract("PriceFeeds", deployer);
     console.log(`Received Contract at address: ${priceFeeds.address}`);
+    console.log("Checking all PriceFeeds In Contract");
+    const priceFeedAddresses = await priceFeeds.getAllPriceFeedAddresses();
+    const priceFeedNames = await priceFeeds.getAllPriceFeedNames();
 
-    try {
-        const txnResponse = await priceFeeds.addPriceFeed(
-            GENESIS_ADDRESS,
-            GENESIS_NAME
+    for (let i = 0; i < priceFeedAddresses.length; i++) {
+        console.log(
+            `Iteration: ${i}\tNames: ${priceFeedNames[i]}\tAddresses: ${priceFeedAddresses[i]}\t`
         );
-
-        const txnReceipt = await txnResponse.wait(1);
-
-        const { gasUsed, effectiveGasPrice, from, to } = txnReceipt;
-
-        console.log(`GAS COST: ${gasUsed}`);
-        console.log(`EFFECTIVE GAS PRICE: ${effectiveGasPrice}`);
-
-        const totalGasUsed = gasUsed.mul(effectiveGasPrice);
-        console.log(`TOTAL GAS USED: ${totalGasUsed}`);
-        console.log(`FROM: ${from}\tTO: ${to}`);
-        console.log("--------------------------------------");
-    } catch (error) {
-        console.log(`${error.reason}`);
     }
 };
 

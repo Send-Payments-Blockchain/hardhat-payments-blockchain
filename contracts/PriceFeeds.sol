@@ -6,18 +6,18 @@ pragma solidity ^0.8.7;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./PriceConverter.sol";
+import "./PriceConversions.sol";
 
-error ForexPrices__IndexOutOfRange();
-error ForexPrices__NotOwner();
-error ForexPrices__PriceFeedExists();
-error ForexPrices__PriceFeedDoesNotExist();
+error PriceFeeds__IndexOutOfRange();
+error PriceFeeds__NotOwner();
+error PriceFeeds__PriceFeedExists();
+error PriceFeeds__PriceFeedDoesNotExist();
 
 /**
- * @title ForexPrices: a smart contract that lists the PriceFeeds of multiple tokens,forex, and commodoties
+ * @title PriceFeeds: a smart contract that lists the PriceFeeds of multiple tokens,forex, and commodoties
  * @author Jesus Badillo Jr.
  */
-contract ForexPrices is Ownable {
+contract PriceFeeds is Ownable {
     /**
      * Price Feeds for Polygon Mumbai
         btcUsdPriceFeed: "0x007A22900a3B98143368Bd5906f8E17e9867581b",
@@ -32,7 +32,7 @@ contract ForexPrices is Ownable {
         usdUsdtPriceFeed: "0x92C09849638959196E976289418e5973CC96d645",
     **/
 
-    using PriceConverter for int256;
+    using PriceConversions for int256;
 
     address private immutable i_owner;
     address[] private s_priceFeedAddresses;
@@ -58,7 +58,7 @@ contract ForexPrices is Ownable {
     }
 
     /**
-     * @dev Add a priceFeed to the contract
+     * @dev Add a priceFeed to the contract (onlyOwner)
      * @param _newPriceFeedAddress the address of the priceFeed to be able to get information from the chainlink oracle
      * @param _newPriceFeedName the name corresponding to the priceFeed passed into the contract
      */
@@ -67,7 +67,7 @@ contract ForexPrices is Ownable {
         string calldata _newPriceFeedName
     ) public onlyOwner {
         if (priceFeedExists(_newPriceFeedAddress) == true) {
-            revert ForexPrices__PriceFeedExists();
+            revert PriceFeeds__PriceFeedExists();
         }
         s_addressExists[_newPriceFeedAddress] = true;
         s_priceFeedAddresses.push(_newPriceFeedAddress);
@@ -81,13 +81,13 @@ contract ForexPrices is Ownable {
     }
 
     /**
-     * @dev Remove a priceFeed from the contract
+     * @dev Remove a priceFeed from the contract (onlyOwner)
      * @param _priceFeedAddress the address of the priceFeed to be able to get information from the chainlink oracle
      */
     function removePriceFeed(address _priceFeedAddress) public onlyOwner {
         // Get the address corresponding to the deleted PriceFeed
         if (priceFeedExists(_priceFeedAddress) != true) {
-            revert ForexPrices__PriceFeedDoesNotExist();
+            revert PriceFeeds__PriceFeedDoesNotExist();
         }
         address emittedPriceFeedAddress = s_priceFeedAddresses[
             s_priceFeedAddresses.length - 1
@@ -162,7 +162,7 @@ contract ForexPrices is Ownable {
         returns (string memory)
     {
         if (_index >= s_priceFeedNames.length) {
-            revert ForexPrices__IndexOutOfRange();
+            revert PriceFeeds__IndexOutOfRange();
         }
         return s_priceFeedNames[_index];
     }
@@ -173,7 +173,7 @@ contract ForexPrices is Ownable {
         returns (address)
     {
         if (_index >= s_priceFeedAddresses.length) {
-            revert ForexPrices__IndexOutOfRange();
+            revert PriceFeeds__IndexOutOfRange();
         }
         return s_priceFeedAddresses[_index];
     }

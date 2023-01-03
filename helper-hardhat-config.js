@@ -26,15 +26,25 @@ const developmentChains = ["hardhat", "localhost"];
 
 /**
  * @notice The constants below are only used when the contract is deployed on the hardhat network
- * @param {uint8} DECIMALS The decimals parameter describes how it will divide the price (INITIAL_ANSWER)
- * @param {int256} INITIAL_ANSWER The INITIAL_ANSWER is used to determine the initial price of the mocj contract
+ * @param {uint8} BASE_DECIMALS The decimals parameter describes how it will divide the price (BASE_INITIAL_ANSWER)
+ * @param {int256} BASE_INITIAL_ANSWER The INITIAL_ANSWER is used to determine the initial price of the mock contract
  */
-const DECIMALS = 8;
-const INITIAL_ANSWER = 2000000000;
+const BASE_DECIMALS = 8;
+const BASE_INITIAL_ANSWER = 2000000000;
+
+/**
+ * @notice The constants below are only used when the contract is deployed on the hardhat network
+ * @param {uint8} QUOTE_DECIMALS The decimals parameter describes how it will divide the price (QUOTE_INITIAL_ANSWER)
+ * @param {int256} QUOTE_INITIAL_ANSWER The INITIAL_ANSWER is used to determine the initial price of the mock contract
+ */
+const QUOTE_DECIMALS = 18;
+const QUOTE_INITIAL_ANSWER = 1000000000;
 
 module.exports = {
     developmentChains,
     networkConfig,
-    DECIMALS,
-    INITIAL_ANSWER,
+    BASE_DECIMALS,
+    BASE_INITIAL_ANSWER,
+    QUOTE_DECIMALS,
+    QUOTE_INITIAL_ANSWER,
 };

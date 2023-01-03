@@ -8,19 +8,11 @@ const main = async () => {
 
     console.log("--------------------------------------");
     console.log("Getting contract");
-    const forexPrices = await ethers.getContract("ForexPrices", deployer);
-    console.log(`Received Contract at address: ${forexPrices.address}`);
+    const priceFeeds = await ethers.getContract("PriceFeeds", deployer);
+    console.log(`Received Contract at address: ${priceFeeds.address}`);
     console.log("Checking all PriceFeeds In Contract");
-    const priceFeedAddresses = await forexPrices.getAllPriceFeedAddresses();
-    const priceFeedNames = await forexPrices.getAllPriceFeedNames();
-
-    for (let i = 0; i < priceFeedAddresses.length; i++) {
-        console.log(
-            `Iteration: ${i}\tNames: ${priceFeedNames[i]}\tAddresses: ${priceFeedAddresses[i]}\t`
-        );
-    }
     try {
-        const txnResponse = await forexPrices.removePriceFeed(GENESIS_ADDRESS);
+        const txnResponse = await priceFeeds.removePriceFeed(GENESIS_ADDRESS);
         const txnReceipt = await txnResponse.wait(1);
         const { gasUsed, effectiveGasPrice, from, to } = txnReceipt;
         console.log(`GAS COST: ${gasUsed}`);
